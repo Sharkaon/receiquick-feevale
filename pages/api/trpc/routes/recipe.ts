@@ -35,18 +35,8 @@ const recipes = trpc.router()
     }
   })
   .query('recipes', {
-    input: z.array({ z.number() }),
-    async resolve({ input }) {
+    async resolve( _req ) {
       const recipes = await prisma.recipe.findMany({
-        where: {
-          ingredients: {
-            some: {
-              ingredientId: {
-                in: input.ingredientIds
-              }
-            }
-          }
-        },
         select: {
           id: true,
           name: true,
