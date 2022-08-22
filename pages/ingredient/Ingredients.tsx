@@ -7,7 +7,7 @@ const Ingredients: NextPage = () => {
 
   return (
     <>
-      <h1>Ingredientes</h1>
+      <h1>Ingredientes!</h1>
       {!res || !res.data? 'Carregando...' : res.data?.map((ingredient) => (
         <Link href={{
           pathname: '/ingredient/[id]',
