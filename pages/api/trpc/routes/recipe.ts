@@ -39,11 +39,26 @@ const recipes = trpc.router()
   .mutation('createRecipe', {
     input: z.object({
       name: z.string(),
+      ingredients: z.array(z.object({
+        id: z.number(),
+        amount: z.number()
+      })),
     }),
     async resolve({ input }) {
+      debugger;
       const recipe = await prisma.recipe.create({
         data: {
           name: input.name,
+          ingredients: {
+            create: input.ingredients.map(ingredient => ({
+              amount: ingredient.amount,
+              ingredient: {
+                connect: {
+                  id: ingredient.id,
+                }
+              }
+            }))
+          }
         }
       });
 
@@ -55,6 +70,7 @@ const recipes = trpc.router()
       id: z.number(),
       data: z.object({
         name: z.string(),
+        ingredients: z.array(z.number()),
       }),
     }),
     async resolve({ input }) {
