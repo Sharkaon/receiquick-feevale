@@ -12,6 +12,8 @@ const Recipe: NextPage = () => {
     onSuccess: () => router.back(),
   });
 
+  console.log(res.data);
+
   const handleClickDelete: React.FormEventHandler<HTMLButtonElement> = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     deleteMutation.mutate(parseInt(id, 10));
@@ -19,7 +21,8 @@ const Recipe: NextPage = () => {
 
   return (
     <>
-      {res?.data?.name}<br/>
+      {!res ? 'Carregando...' : res?.data?.name}<br/>
+      Ingredientes: {res?.data?.ingredients?.map(i => i.ingredient.name).join(', ')}<br/>
       <button onClick={(e) => handleClickDelete(e)} name="delete">
         Excluir
       </button>

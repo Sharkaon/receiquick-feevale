@@ -17,7 +17,17 @@ const recipes = trpc.router()
         select: {
           id: true,
           name: true,
-          ingredients: true
+          ingredients: {
+            select: {
+              ingredient: {
+                select: {
+                  id: true,
+                  name: true,
+                }
+              },
+              amount: true
+            }
+          }
         }
       });
 
@@ -25,11 +35,32 @@ const recipes = trpc.router()
     }
   })
   .query('recipes', {
-    async resolve( _req ) {
+    input: z.array({ z.number() }),
+    async resolve({ input }) {
       const recipes = await prisma.recipe.findMany({
+        where: {
+          ingredients: {
+            some: {
+              ingredientId: {
+                in: input.ingredientIds
+              }
+            }
+          }
+        },
         select: {
           id: true,
           name: true,
+          ingredients: {
+            select: {
+              ingredient: {
+                select: {
+                  id: true,
+                  name: true,
+                }
+              },
+              amount: true
+            }
+          }
         }
       });
 
