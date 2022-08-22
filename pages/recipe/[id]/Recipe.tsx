@@ -26,7 +26,7 @@ const Recipe: NextPage = () => {
       <h1>{!res ? 'Carregando...' : res?.data?.name}</h1>
       <h4>Ingredientes:</h4>
       {res?.data?.ingredients?.map(i => (
-        <p>{i.ingredient?.name} ({i.amount})</p>
+        <p key={i.ingredient?.id}>{i.ingredient?.name} ({i.amount})</p>
       ))}
       <br/>
       <div>
