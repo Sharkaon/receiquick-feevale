@@ -1,7 +1,11 @@
-import { InputLabel, MenuItem, SelectChangeEvent } from "@mui/material";
-import { NextPage } from "next";
-import { Select } from '@mui/material';
 import React from "react";
+import { NextPage } from "next";
+import {
+  InputLabel,
+  MenuItem,
+  SelectChangeEvent,
+  Select
+} from "@mui/material";
 import { trpc } from "../../../utils/trpc";
 
 const CreateRecipe: NextPage = () => {
@@ -36,7 +40,6 @@ const CreateRecipe: NextPage = () => {
   }
 
   const handleIngredientChange = (e: SelectChangeEvent) => {
-    debugger;
     const target = e.target as typeof e.target & {
       value: number;
     };
