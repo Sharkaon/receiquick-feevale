@@ -1,3 +1,3 @@
-import createIngredient from "./CreateIngredient";
+import CreateIngredient from "./CreateIngredient";
 
-export default createIngredient;
+export default CreateIngredient;

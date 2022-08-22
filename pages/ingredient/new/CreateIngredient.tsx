@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import { trpc } from '../../../utils/trpc';
 
-const createIngredient: NextPage = () => {
+const CreateIngredient: NextPage = () => {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const mutation = trpc.useMutation(['ingredient.createIngredient']);
 
@@ -36,4 +36,4 @@ const createIngredient: NextPage = () => {
   );
 }	
 
-export default createIngredient;
+export default CreateIngredient;
