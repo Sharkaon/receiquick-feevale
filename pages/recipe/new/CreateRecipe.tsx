@@ -4,7 +4,8 @@ import {
   InputLabel,
   MenuItem,
   SelectChangeEvent,
-  Select
+  Select,
+  Button,
 } from "@mui/material";
 import { trpc } from "../../../utils/trpc";
 
@@ -31,9 +32,14 @@ const CreateRecipe: NextPage = () => {
         id: ingredient.id,
         amount: ingredient.amount
       }));
-      mutation.mutate({ name: target.name.value, ingredients: formattedSelectedIngredients });
-      setIsInvalid(false);
-      target.name.value = '';
+      if (formattedSelectedIngredients.length > 0) {
+        mutation.mutate({
+          name: target.name.value,
+          ingredients: formattedSelectedIngredients
+        });
+      } else {
+        setIsInvalid(true);
+      }
     } else {
       setIsInvalid(true);
     }
@@ -55,11 +61,15 @@ const CreateRecipe: NextPage = () => {
 
   return (
     <>
+      <Link href="/recipe">
+        <Button>Voltar</Button>
+      </Link>
       <h1>Criar Receita</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <label>Nome:</label><br/>
+        <label>Nome:</label>
         <input type="text" name="name"/>
-        <button type="submit">Criar</button>
+        <br/>
+
         <InputLabel id="ingrediente">Ingredientes</InputLabel>
         <Select id="ingrediente" label-id="ingrediente" label="Ingrediente" onChange={handleIngredientChange}>
           {res.data?.map(({ id, name }) => (
@@ -76,12 +86,15 @@ const CreateRecipe: NextPage = () => {
               if (e.target instanceof EventTarget && target.value) {
                 setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: Number.parseInt(target.value, 10) } : i));
               }
-            } }/>
+            }}/>
           </div>
         ))}
+        <br/>
+
+        <br/><Button type="submit" variant="contained">Criar</Button>
       </form>
       {mutation.isLoading && <p>Carregando...</p>}
-      {(isInvalid || mutation.isError) && <p>Preencha o nome</p>}
+      {(isInvalid || mutation.isError) && <p>Necessário Nome, Ingredientes</p>}
       {mutation.isSuccess && <p>Receita criada com sucesso</p>}
     </>
   );

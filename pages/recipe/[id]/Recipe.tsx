@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { NextPage } from "next"
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,17 +20,26 @@ const Recipe: NextPage = () => {
 
   return (
     <>
-      {!res ? 'Carregando...' : res?.data?.name}<br/>
-      Ingredientes: {res?.data?.ingredients?.map(i => i.ingredient.name).join(', ')}<br/>
-      <button onClick={(e) => handleClickDelete(e)} name="delete">
-        Excluir
-      </button>
-      <Link href={{
-        pathname: '/recipe/[id]/edit',
-        query: { id }
-      }}>
-        <button>Editar</button>
+      <Link href="/recipe">
+        <Button>Voltar</Button>
       </Link>
+      <h1>{!res ? 'Carregando...' : res?.data?.name}</h1>
+      <h4>Ingredientes:</h4>
+      {res?.data?.ingredients?.map(i => (
+        <p>{i.ingredient?.name} ({i.amount})</p>
+      ))}
+      <br/>
+      <div>
+        <Button color="error" variant="contained" onClick={(e) => handleClickDelete(e)} name="delete">
+          Excluir
+        </Button>
+        <Link href={{
+          pathname: '/recipe/[id]/edit',
+          query: { id }
+        }}>
+          <Button variant="contained" color="secondary">Editar</Button>
+        </Link>
+      </div>
       {deleteMutation.isError && <p>Erro ao excluir</p>}
       {deleteMutation.isLoading && <p>Carregando...</p>}
     </>

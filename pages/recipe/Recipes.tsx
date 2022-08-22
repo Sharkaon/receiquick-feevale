@@ -6,7 +6,8 @@ import {
   MenuItem,
   SelectChangeEvent,
   Select,
-  FormControl
+  FormControl,
+  Button
 } from "@mui/material";
 import { trpc } from "../../utils/trpc";
 
@@ -60,10 +61,11 @@ const Recipes: NextPage = () => {
 
         {searchedIngredients.length === 0 ? 'Nenhum Ingrediente Selecionado' : searchedIngredients.map(({ id, name }) => (
           <div key={id}>
-            <label>{name}</label>
+            <label>{name}</label><Button color="error" onClick={() => setSearchedIngredients(searchedIngredients.filter(i => i.id !== id))}>X</Button>
           </div>
         ))}
         <br/>
+
         {!recipeResponse || !recipeResponse.data? 'Carregando...' : recipeResponse.data?.map((recipe) => (
           <Link key={recipe.id} href={{
             pathname: '/recipe/[id]',
@@ -73,6 +75,7 @@ const Recipes: NextPage = () => {
           </Link>
         ))}
         <br/>
+
       </FormControl>
       <Link href="/recipe/new">
         <a><h4>Criar receita</h4></a>
