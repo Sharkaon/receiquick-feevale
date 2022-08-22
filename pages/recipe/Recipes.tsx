@@ -6,7 +6,7 @@ import {
   MenuItem,
   SelectChangeEvent,
   Select,
-  Button
+  FormControl
 } from "@mui/material";
 import { trpc } from "../../utils/trpc";
 
@@ -44,27 +44,36 @@ const Recipes: NextPage = () => {
     <>
       <h1>Receitas</h1>
 
-      <Select id="ingrediente" label-id="ingrediente" label="Ingrediente" onChange={handleIngredientChange}>
-        {ingredientResponse.data?.map(({ id, name }) => (
-          <MenuItem key={id} value={id}>{name}</MenuItem>
+      <FormControl>
+        <InputLabel id="ingrediente-label">Ingrediente</InputLabel>
+        <Select
+          id="ingrediente"
+          labelId="ingrediente-label"
+          label="Ingrediente" 
+          onChange={handleIngredientChange}
+        >
+          {ingredientResponse.data?.map(({ id, name }) => (
+            <MenuItem key={id} value={id}>{name}</MenuItem>
+          ))}
+        </Select>
+        <br/>
+
+        {searchedIngredients.length === 0 ? 'Nenhum Ingrediente Selecionado' : searchedIngredients.map(({ id, name }) => (
+          <div key={id}>
+            <label>{name}</label>
+          </div>
         ))}
-      </Select>
-      <br/>
-      {searchedIngredients.length === 0 ? 'Nenhum Ingrediente Selecionado' : searchedIngredients.map(({ id, name }) => (
-        <div key={id}>
-          <label>{name}</label>
-        </div>
-      ))}
-      <br/>
-      {!recipeResponse || !recipeResponse.data? 'Carregando...' : recipeResponse.data?.map((recipe) => (
-        <Link key={recipe.id} href={{
-          pathname: '/recipe/[id]',
-          query: { id: recipe.id }
-        }}>
-          <a><li key={recipe.id}>{recipe.name}</li></a>
-        </Link>
-      ))}
-      <br/>
+        <br/>
+        {!recipeResponse || !recipeResponse.data? 'Carregando...' : recipeResponse.data?.map((recipe) => (
+          <Link key={recipe.id} href={{
+            pathname: '/recipe/[id]',
+            query: { id: recipe.id }
+          }}>
+            <a><li key={recipe.id}>{recipe.name}</li></a>
+          </Link>
+        ))}
+        <br/>
+      </FormControl>
       <Link href="/recipe/new">
         <a><h4>Criar receita</h4></a>
       </Link>
