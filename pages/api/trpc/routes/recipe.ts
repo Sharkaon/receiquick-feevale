@@ -91,7 +91,6 @@ const recipes = trpc.router()
       id: z.number(),
       data: z.object({
         name: z.string(),
-        ingredients: z.array(z.number()),
       }),
     }),
     async resolve({ input }) {
