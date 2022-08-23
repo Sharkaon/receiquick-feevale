@@ -29,6 +29,9 @@ const Recipe: NextPage = () => {
         <p key={i.ingredient?.id}>{i.ingredient?.name} ({i.amount})</p>
       ))}
       <br/>
+      {res?.data?.Steps?.map(s => (
+        <p key={s.id}>{s.description}</p>
+      ))}
       <div>
         <Button color="error" variant="contained" onClick={(e) => handleClickDelete(e)} name="delete">
           Excluir

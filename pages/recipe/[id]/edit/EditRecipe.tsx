@@ -36,8 +36,10 @@ const EditRecipe: NextPage = () => {
   const ingredientResponse = trpc.useQuery(['ingredient.ingredients']);
 
   const editMutation = trpc.useMutation(['recipe.updateRecipe'], {
-    onSuccess(input) {
-      trpcUtils.invalidateQueries(['recipe.recipe', { id: input.id }]);
+    onSuccess() {
+      setTimeout(() => {
+        router.back();
+      }, 1000);
     }
   });
   const deleteMutation = trpc.useMutation(['recipe.deleteRecipe'], {
@@ -107,6 +109,7 @@ const EditRecipe: NextPage = () => {
       const selectedAmount = Number.parseInt(target.value, 10) || 0;
       if (selectedAmount !== 0) {
         setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: selectedAmount} : i));
+        setIsInvalid(false);
       } else {
         setIsInvalid(true);
       }
@@ -130,7 +133,11 @@ const EditRecipe: NextPage = () => {
         {res?.data?.ingredients !== undefined && res?.data?.ingredients?.length > 0 && res?.data?.ingredients?.map(({ ingredient, amount }) => (
           <div key={ingredient.id}>
             <label>{ingredient.name}</label>
-            <input type="number" name="amount" defaultValue={amount} onChange={(e) => setNewSelectedIngredientAmount(e, ingredient.id)}/>
+            <input
+              type="number"
+              name="amount"
+              defaultValue={amount} onChange={(e) => setNewSelectedIngredientAmount(e, ingredient.id)}
+            />
           </div>
         ))}
         <br/>

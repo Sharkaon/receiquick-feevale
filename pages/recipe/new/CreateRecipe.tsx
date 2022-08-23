@@ -1,5 +1,6 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import Link from 'next/link';
 import {
   InputLabel,
@@ -11,17 +12,31 @@ import {
 import { trpc } from "../../../utils/trpc";
 
 const CreateRecipe: NextPage = () => {
-  interface SelectedIngredient {
+  type SelectedIngredient = {
     id: number;
     name: string | undefined;
     amount: number;
   };
 
+  type Step =  {
+    id: number;
+    description: string;
+  };
+
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [selectedIngredients, setSelectedIngredients] = React.useState<SelectedIngredient[]>([]);
+  const [steps, setSteps] = React.useState<Step[]>([]);
+
+  const router = useRouter();
 
   const mutation = trpc.useMutation(['recipe.createRecipe']);
-  const res = trpc.useQuery(['ingredient.ingredients']);
+  const res = trpc.useQuery(['ingredient.ingredients'], {
+    onSuccess() {
+      setTimeout(() => {
+        router.back();
+      }, 1000);
+    }
+  });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +61,8 @@ const CreateRecipe: NextPage = () => {
         if (isValidMutation) {
           mutation.mutate({
             name: target.name.value,
-            ingredients: formattedSelectedIngredients
+            ingredients: formattedSelectedIngredients,
+            steps: steps
           });
         }
       } else {
@@ -85,6 +101,19 @@ const CreateRecipe: NextPage = () => {
     }
   }
 
+  const handleStepValueChange = (e: SelectChangeEvent, id: number) => {
+    const target = e.target as typeof e.target & {
+      value: string;
+    };
+    if (e.target instanceof EventTarget && target.value) {
+      setSteps(steps.map(s => s.id === id ? { ...s, description: e.target.value } : s));
+    }
+  }
+
+  const handleNewStep = () => {
+    setSteps([...steps, { id: steps.length, description: '' }]);
+  }
+
   return (
     <>
       <Link href="/recipe">
@@ -109,6 +138,13 @@ const CreateRecipe: NextPage = () => {
           </div>
         ))}
         <br/>
+        {steps.length > 0 && steps.map(({ id, description }) => (
+          <div key={id}>
+            <label>Passo {id + 1}</label>
+            <input type="text" name="description" value={description} onChange={(e) => handleStepValueChange(e, id)}/>
+          </div>
+        ))}
+        <Button variant="contained" onClick={handleNewStep}>Adicionar Passo</Button>
 
         <br/><Button type="submit" variant="contained">Criar</Button>
       </form>
