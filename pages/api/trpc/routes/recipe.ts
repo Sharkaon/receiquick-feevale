@@ -152,6 +152,10 @@ const recipes = trpc.router()
           id: z.number(),
           amount: z.number()
         })),
+        steps: z.array(z.object({
+          description: z.string(),
+          id: z.number(),
+        })),
       }),
     }),
     async resolve({ input }) {
@@ -178,7 +182,17 @@ const recipes = trpc.router()
                 }
               }
             }))
-          }
+          },
+          Steps: {
+            update: input.data.steps.map(step => ({
+              where: {
+                id: step.id,
+              },
+              data: {
+                description: step.description,
+              }
+            }))
+          },
         }
       });
 

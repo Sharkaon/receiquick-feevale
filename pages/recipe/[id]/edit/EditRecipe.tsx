@@ -11,19 +11,23 @@ import {
 import { trpc } from "../../../../utils/trpc";
 
 const EditRecipe: NextPage = () => {
-  interface SelectedIngredient {
+  type SelectedIngredient = {
     id: number;
     name: string | undefined;
     amount: number;
-  };  
+  };
+
+  type Steps = {
+    id: number;
+    description: string;
+  };
 
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [selectedIngredients, setSelectedIngredients] = React.useState<SelectedIngredient[]>([]);
+  const [steps, setSteps] = React.useState<Steps[]>([]);
 
   const router = useRouter();
   const { id } = router.query as { id: string };
-
-  const trpcUtils = trpc.useContext();
 
   const res = trpc.useQuery(['recipe.recipe', { id: parseInt(id, 10) }]);
   React.useEffect(() => {
@@ -32,7 +36,13 @@ const EditRecipe: NextPage = () => {
       name: i.ingredient.name,
       amount: i.amount
     })) : []);
+
+    setSteps(res?.data?.Steps ? res?.data.Steps.map(s => ({
+      id: s.id,
+      description: s.description
+    })) : []);
   }, []);
+
   const ingredientResponse = trpc.useQuery(['ingredient.ingredients']);
 
   const editMutation = trpc.useMutation(['recipe.updateRecipe'], {
@@ -75,7 +85,8 @@ const EditRecipe: NextPage = () => {
             id: parseInt(id, 10),
             data: {
               name: target.name.value,
-              ingredients: formattedSelectedIngredients as SelectedIngredient[]
+              ingredients: formattedSelectedIngredients as SelectedIngredient[],
+              steps: steps as Steps[]
             }
           });
         }
@@ -116,6 +127,10 @@ const EditRecipe: NextPage = () => {
     }
   }
 
+  const handleStepChange = (e: SelectChangeEvent, id: number) => {
+    setSteps(steps.map(s => s.id === id ? { ...s, description: e.target.value } : s))
+  }
+
   return (
     <>
       <h1>Editar Receita</h1>
@@ -136,7 +151,20 @@ const EditRecipe: NextPage = () => {
             <input
               type="number"
               name="amount"
-              defaultValue={amount} onChange={(e) => setNewSelectedIngredientAmount(e, ingredient.id)}
+              defaultValue={amount}
+              onChange={(e) => setNewSelectedIngredientAmount(e, ingredient.id)}
+            />
+          </div>
+        ))}
+        <br/>
+        {res?.data?.Steps !== undefined && res?.data?.Steps?.length > 0 && res?.data?.Steps?.map(({ id, description }) => (
+          <div key={id}>
+            <label>{id}</label>
+            <input
+              type="text"
+              name="description"
+              defaultValue={description}
+              onChange={(e) => handleStepChange(e, id)}
             />
           </div>
         ))}
