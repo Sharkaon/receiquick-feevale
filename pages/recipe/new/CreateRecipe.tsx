@@ -34,7 +34,6 @@ const CreateRecipe: NextPage = () => {
         amount: ingredient.amount
       }));
       if (formattedSelectedIngredients.length > 0) {
-        debugger;
         const isValidMutation = formattedSelectedIngredients.every(ingredient => {
           if (ingredient.amount === 0) {
             setIsInvalid(true);
