@@ -134,6 +134,10 @@ const recipes = trpc.router()
       id: z.number(),
       data: z.object({
         name: z.string(),
+        ingredients: z.array(z.object({
+          id: z.number(),
+          amount: z.number()
+        })),
       }),
     }),
     async resolve({ input }) {
@@ -142,7 +146,25 @@ const recipes = trpc.router()
           id: input.id
         },
         data: {
-          ...input.data,
+          name: input.data.name,
+          ingredients: {
+            update: input.data.ingredients.map(ingredient => ({
+              where: {
+                recipeId_ingredientId: {
+                  recipeId: input.id,
+                  ingredientId: ingredient.id,
+                }
+              },
+              data: {
+                amount: ingredient.amount,
+                ingredient: {
+                  connect: {
+                    id: ingredient.id,
+                  }
+                }
+              }
+            }))
+          }
         }
       });
 
