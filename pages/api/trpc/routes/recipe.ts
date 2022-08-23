@@ -2,7 +2,7 @@ import * as trpc from '@trpc/server';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import prisma from '../../prismaInstance';
 
 const recipes = trpc.router()
   .query('recipe', {
@@ -26,6 +26,12 @@ const recipes = trpc.router()
                 }
               },
               amount: true
+            }
+          },
+          Steps: {
+            select: {
+              id: true,
+              description: true,
             }
           }
         }
@@ -108,6 +114,9 @@ const recipes = trpc.router()
         id: z.number(),
         amount: z.number()
       })),
+      steps: z.array(z.object({
+        description: z.string(),
+      })),
     }),
     async resolve({ input }) {
       const recipe = await prisma.recipe.create({
@@ -122,7 +131,12 @@ const recipes = trpc.router()
                 }
               }
             }))
-          }
+          },
+          Steps: {
+            create: input.steps.map(step => ({
+              description: step.description,
+            }))
+          },
         }
       });
 
