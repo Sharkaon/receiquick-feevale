@@ -35,9 +35,12 @@ const recipes = trpc.router()
     }
   })
   .query('recipes', {
-    input: z.array(z.object({
-      id: z.number(),
-    })).nullish(),
+    input: z.array(
+      z.object({
+        id: z.number(),
+        amount: z.number().nullable(),
+      })
+    ).nullish(),
     async resolve( { input } ) {
       const searchedIds = input ? input.map(({ id }) => id) : [];
       let recipes;
@@ -49,8 +52,8 @@ const recipes = trpc.router()
                 ingredient: {
                   id: {
                     in: searchedIds
-                  }
-                }
+                  },
+                },
               }
             }
           },
@@ -107,7 +110,6 @@ const recipes = trpc.router()
       })),
     }),
     async resolve({ input }) {
-      debugger;
       const recipe = await prisma.recipe.create({
         data: {
           name: input.name,

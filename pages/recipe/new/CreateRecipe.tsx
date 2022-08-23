@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import { NextPage } from "next";
 import Link from 'next/link';
 import {
@@ -34,10 +34,22 @@ const CreateRecipe: NextPage = () => {
         amount: ingredient.amount
       }));
       if (formattedSelectedIngredients.length > 0) {
-        mutation.mutate({
-          name: target.name.value,
-          ingredients: formattedSelectedIngredients
+        debugger;
+        const isValidMutation = formattedSelectedIngredients.every(ingredient => {
+          if (ingredient.amount === 0) {
+            setIsInvalid(true);
+            return false;
+          } else {
+            return true;
+          }
         });
+
+        if (isValidMutation) {
+          mutation.mutate({
+            name: target.name.value,
+            ingredients: formattedSelectedIngredients
+          });
+        }
       } else {
         setIsInvalid(true);
       }
@@ -55,8 +67,22 @@ const CreateRecipe: NextPage = () => {
       name: res.data?.find(i => i.id === Number.parseInt(target.value, 10))?.name,
       amount: 0
     }
-    if (target.value) {
+    if (target.value && !selectedIngredients.find(i => i.id === newSelectedIngredient.id)) {
       setSelectedIngredients([...selectedIngredients, newSelectedIngredient]);
+    }
+  }
+
+  const setNewSelectedIngredient = (e: SelectChangeEvent, id: number) => { 
+    const target = e.target as typeof e.target & {
+      value: number;
+    };
+    if (e.target instanceof EventTarget && target.value) {
+      const selectedAmount = Number.parseInt(target.value, 10) || 0;
+      if (selectedAmount !== 0) {
+        setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: selectedAmount} : i));
+      } else {
+        setIsInvalid(true);
+      }
     }
   }
 
@@ -77,17 +103,10 @@ const CreateRecipe: NextPage = () => {
             <MenuItem key={id} value={id}>{name}</MenuItem>
           ))}
         </Select>
-        {selectedIngredients.length === 0 ? 'Nenhum Ingrediente Selecionado' : selectedIngredients.map(({ id, name, amount }) => (
+        {selectedIngredients.length > 0 && selectedIngredients.map(({ id, name, amount }) => (
           <div key={id}>
             <label>{name}</label>
-            <input type="number" name="amount" value={amount} onChange={(e) => {
-              const target = e.target as typeof e.target & {
-                value: number;
-              };
-              if (e.target instanceof EventTarget && target.value) {
-                setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: Number.parseInt(target.value, 10) } : i));
-              }
-            }}/>
+            <input type="number" name="amount" value={amount} onChange={(e) => setNewSelectedIngredient(e, id)}/>
           </div>
         ))}
         <br/>
