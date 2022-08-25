@@ -1,7 +1,5 @@
 import * as trpc from '@trpc/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
-import recipes from './recipe';
 
 import prisma from '../../prismaInstance';
 

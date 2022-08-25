@@ -1,16 +1,10 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
+import Login from '../componets/login';
 
 const Home: NextPage = () => {
   return (
     <>
-      <Link href='/ingredient'>
-        <a>Ingrediente</a>
-      </Link>
-      <br/>
-      <Link href="/recipe">
-        <a>Receitas</a>
-      </Link>
+      <Login/>
     </>
   )
 }

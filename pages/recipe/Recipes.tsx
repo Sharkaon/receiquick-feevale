@@ -81,7 +81,11 @@ const Recipes: NextPage = () => {
 
       </FormControl>
       <Link href="/recipe/new">
-        <a><h4>Criar receita</h4></a>
+      <Button variant='contained'>Criar receita</Button>
+      </Link>
+
+      <Link href='ingredient'>
+        <Button variant='contained'>Não achou o ingrediente que você procura? Cadastre-o aqui!</Button>
       </Link>
     </>
   )

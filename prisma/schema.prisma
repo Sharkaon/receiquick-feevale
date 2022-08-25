@@ -22,6 +22,7 @@ model Recipe {
   name        String
   ingredients IngredientsOnRecipes[]
   Steps       Steps[]
+  comments    Comment[]
 }
 
 model IngredientsOnRecipes {
@@ -39,4 +40,20 @@ model Steps {
   recipe      Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   recipeId    Int
   description String
+}
+
+model Comment {
+  id          Int @id @default(autoincrement())
+  recipe      Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  recipeId    Int
+  description String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      Int
+}
+
+model User {
+  id          Int @id @default(autoincrement())
+  name        String
+  email       String @unique
+  comments    Comment[]
 }
