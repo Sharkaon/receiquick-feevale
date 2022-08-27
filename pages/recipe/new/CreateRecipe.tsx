@@ -29,14 +29,14 @@ const CreateRecipe: NextPage = () => {
 
   const router = useRouter();
 
-  const mutation = trpc.useMutation(['recipe.createRecipe']);
-  const res = trpc.useQuery(['ingredient.ingredients'], {
+  const mutation = trpc.useMutation(['recipe.createRecipe'], {
     onSuccess() {
       setTimeout(() => {
         router.back();
       }, 1000);
     }
   });
+  const res = trpc.useQuery(['ingredient.ingredients']);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
