@@ -15,6 +15,7 @@ import {
 import { UserContext } from "../../../contexts/UserContext";
 import { trpc } from "../../../utils/trpc";
 import UserOptions from "../../../components/userOptions";
+import DeleteRecipe from "../../../components/Recipes/deleteRecipe";
 
 const Recipe: NextPage = () => {
   const [ comment, setComment ] = useState("");
@@ -28,19 +29,11 @@ const Recipe: NextPage = () => {
   const res = trpc.useQuery(['recipe.recipe', { id: parseInt(id, 10) }], {
     onSuccess: () => setLoadingComments(false)
   });
-  const deleteMutation = trpc.useMutation(['recipe.deleteRecipe'], {
-    onSuccess: () => router.back()
-  });
   const createCommentMutation = trpc.useMutation(['comment.createComment'], {
     onSuccess: () => {
       trpcUtils.invalidateQueries(['recipe.recipe', { id: parseInt(id, 10) }]);
     },
   });
-
-  const handleClickDelete: React.FormEventHandler<HTMLButtonElement> = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    deleteMutation.mutate(parseInt(id, 10));
-  }
 
   const handleSubmitComment: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,18 +54,20 @@ const Recipe: NextPage = () => {
       <h1>{!res || !res?.data ? 'Carregando...' : res?.data?.name}</h1>
 
       <h4>Ingredientes:</h4>
-      {res?.data?.ingredients?.map(i => (
-        <Badge key={i.ingredient.id} badgeContent={i.amount} color="primary">
-          <Chip label={i.ingredient.name} color="warning"/>
-        </Badge>
-      ))}
+      <div>
+        {res?.data?.ingredients?.map(i => (
+          <Badge key={i.ingredient.id} badgeContent={i.amount} color="primary" className="generalMargin">
+            <Chip label={i.ingredient.name} color="warning"/>
+          </Badge>
+        ))}
+      </div>
       <br/>
 
       <List className="maxList">
         {res?.data?.Steps?.map((s, index) => (
           <>
             <ListItem key={s.id}>
-              <ListItemIcon>{index}</ListItemIcon>
+              <ListItemIcon>{index + 1}</ListItemIcon>
               <ListItemText primary={s.description} />
             </ListItem>
             <Divider />
@@ -80,9 +75,7 @@ const Recipe: NextPage = () => {
         ))}
       </List>
       <div className="grouper">
-        <Button color="error" variant="contained" onClick={(e) => handleClickDelete(e)} name="delete">
-          Excluir
-        </Button>
+        <DeleteRecipe id={parseInt(id, 10)} />
         <Link href={{
           pathname: '/recipe/[id]/edit',
           query: { id }
@@ -90,8 +83,6 @@ const Recipe: NextPage = () => {
           <Button variant="contained" color="warning">Editar</Button>
         </Link>
       </div>
-      {deleteMutation.isError && <p>Erro ao excluir</p>}
-      {deleteMutation.isLoading && <p>Carregando...</p>}
       
       <h2>Comentários</h2>
       {user && user.id && (

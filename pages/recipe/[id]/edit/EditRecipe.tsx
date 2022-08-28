@@ -7,8 +7,11 @@ import {
   SelectChangeEvent,
   Select,
   Button,
+  TextField,
 } from "@mui/material";
 import { trpc } from "../../../../utils/trpc";
+import UserOptions from "../../../../components/userOptions";
+import DeleteRecipe from "../../../../components/Recipes/deleteRecipe";
 
 const EditRecipe: NextPage = () => {
   type SelectedIngredient = {
@@ -98,7 +101,7 @@ const EditRecipe: NextPage = () => {
     }
   }
 
-  const handleIngredientChange = (e: SelectChangeEvent) => {
+  const handleIngredientChange = (e: any) => {
     const target = e.target as typeof e.target & {
       value: number;
     };
@@ -112,7 +115,7 @@ const EditRecipe: NextPage = () => {
     }
   }
 
-  const setNewSelectedIngredientAmount = (e: SelectChangeEvent, id: number) => {
+  const setNewSelectedIngredientAmount = (e: any, id: number) => {
     const target = e.target as typeof e.target & {
       value: number;
     };
@@ -127,16 +130,20 @@ const EditRecipe: NextPage = () => {
     }
   }
 
-  const handleStepChange = (e: SelectChangeEvent, id: number) => {
+  const handleStepChange = (e: any, id: number) => {
     setSteps(steps.map(s => s.id === id ? { ...s, description: e.target.value } : s))
   }
 
   return (
     <>
+      <UserOptions />
       <h1>Editar Receita</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <label>Nome:</label>
-        <input type="text" name="name" defaultValue={res?.data?.name}/>
+        <TextField
+          label="Nome"
+          name="name"
+          defaultValue={res?.data?.name}
+          className="generalMargin"/>
         <br/>
 
         <InputLabel id="ingrediente">Ingredientes</InputLabel>
@@ -147,24 +154,26 @@ const EditRecipe: NextPage = () => {
         </Select>
         {res?.data?.ingredients !== undefined && res?.data?.ingredients?.length > 0 && res?.data?.ingredients?.map(({ ingredient, amount }) => (
           <div key={ingredient.id}>
-            <label>{ingredient.name}</label>
-            <input
-              type="number"
+            <TextField
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              label={ingredient.name}
               name="amount"
-              defaultValue={amount}
-              onChange={(e) => setNewSelectedIngredientAmount(e, ingredient.id)}
+              value={amount}
+              onChange={(e) => setNewSelectedIngredientAmount(e, parseInt(id, 10))}
+              className="generalMargin"
             />
           </div>
         ))}
         <br/>
         {res?.data?.Steps !== undefined && res?.data?.Steps?.length > 0 && res?.data?.Steps?.map(({ id, description }) => (
           <div key={id}>
-            <label>{id}</label>
-            <input
+            <TextField
+              label={`Passo ${id + 1}`}
               type="text"
               name="description"
-              defaultValue={description}
+              value={description}
               onChange={(e) => handleStepChange(e, id)}
+              className="generalMargin"
             />
           </div>
         ))}
@@ -176,9 +185,7 @@ const EditRecipe: NextPage = () => {
       {(isInvalid || editMutation.isError) && <p>Necessário Nome, Ingredientes</p>}
       {editMutation.isSuccess && <p>Receita editada com sucesso</p>}
       <br/>
-      <Button color="error" variant="contained" onClick={() => deleteMutation.mutate(parseInt(id, 10))}>Deletar</Button>
-      {deleteMutation.isLoading && <p>Carregando...</p>}
-      {deleteMutation.isError && <p>Erro ao deletar</p>}
+      <DeleteRecipe id={parseInt(id, 10)} />
     </>
   );
 }

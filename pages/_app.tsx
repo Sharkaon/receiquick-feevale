@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}}>
         <div className='page'>
           {user && (
-            <Link href="recipe"><HomeIcon /></Link>
+            <Link href={`${getBaseUrl()}/recipe`} replace><HomeIcon /></Link>
           )}
           <Component {...pageProps} />
         </div>

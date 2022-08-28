@@ -93,6 +93,7 @@ const Recipes: NextPage = () => {
         <br/>
 
       </FormControl>
+
       <div className="mb-1">
         <Link href="/recipe/new">
           <Button variant='contained' color='warning'>Criar receita</Button>

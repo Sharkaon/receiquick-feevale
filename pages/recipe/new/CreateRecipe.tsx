@@ -8,6 +8,7 @@ import {
   SelectChangeEvent,
   Select,
   Button,
+  TextField,
 } from "@mui/material";
 import { trpc } from "../../../utils/trpc";
 import NewIngredient from "../../../components/newIngredient";
@@ -89,7 +90,7 @@ const CreateRecipe: NextPage = () => {
     }
   }
 
-  const setNewSelectedIngredient = (e: SelectChangeEvent, id: number) => { 
+  const setNewSelectedIngredient = (e: any, id: number) => { 
     const target = e.target as typeof e.target & {
       value: number;
     };
@@ -103,7 +104,7 @@ const CreateRecipe: NextPage = () => {
     }
   }
 
-  const handleStepValueChange = (e: SelectChangeEvent, id: number) => {
+  const handleStepValueChange = (e: any, id: number) => {
     const target = e.target as typeof e.target & {
       value: string;
     };
@@ -124,29 +125,45 @@ const CreateRecipe: NextPage = () => {
       </Link>
       <h1>Criar Receita</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <label>Nome:</label>
-        <input type="text" name="name"/>
+        <TextField label="Nome" name="name"/>
         <br/>
 
         <InputLabel id="ingrediente">Ingredientes</InputLabel>
-        <Select id="ingrediente" label-id="ingrediente" label="Ingrediente" onChange={handleIngredientChange}>
+        <Select
+          id="ingrediente"
+          labelId="ingrediente"
+          label="Ingrediente"
+          onChange={handleIngredientChange}
+        >
           {res.data?.map(({ id, name }) => (
             <MenuItem key={id} value={id}>{name}</MenuItem>
           ))}
         </Select>
         {selectedIngredients.length > 0 && selectedIngredients.map(({ id, name, amount }) => (
           <div key={id}>
-            <label>{name}</label>
-            <input type="number" name="amount" value={amount} onChange={(e) => setNewSelectedIngredient(e, id)}/>
+            <TextField
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              label={name}
+              name="amount"
+              value={amount}
+              onChange={(e) => setNewSelectedIngredient(e, id)}
+              className="generalMargin"
+            />
           </div>
         ))}
         <br/>
+
         {steps.length > 0 && steps.map(({ id, description }) => (
-          <div key={id}>
-            <label>Passo {id + 1}</label>
-            <input type="text" name="description" value={description} onChange={(e) => handleStepValueChange(e, id)}/>
-          </div>
+          <TextField
+            key={id}
+            label={`Passo ${id + 1}`}
+            type="text"
+            name="description"
+            value={description}
+            onChange={(e) => handleStepValueChange(e, id)}
+          />
         ))}
+        <br/>
         <Button variant="contained" color="warning" onClick={handleNewStep}>Adicionar Passo</Button>
 
         <br/><Button type="submit" variant="contained" color="warning">Criar</Button>
