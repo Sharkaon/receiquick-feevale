@@ -21,6 +21,35 @@ a {
   align-items: center;
 }
 
+.link:hover {
+  cursor: pointer;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.grouper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.generalMargin {
+  margin: 0.25rem;
+}
+
+.maxForm {
+  max-width: 80%;
+}
+
+.maxList {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

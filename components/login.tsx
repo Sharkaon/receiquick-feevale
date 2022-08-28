@@ -47,11 +47,11 @@ export default function Login() {
       <h1>Login</h1>
 
       <form onSubmit={(e) => handleSubmitLogin(e)}>
-        <TextField id='email-input' label='Email' variant='outlined' onChange={(e) => setEmail(e.target.value)}/>
-        <Button type='submit' variant="contained"><span>Conectar</span></Button>
+        <TextField id='email-input' className='mb-1' label='Email' variant='outlined' onChange={(e) => setEmail(e.target.value)}/>
+        <Button type='submit' variant='contained'><span>Conectar</span></Button>
       </form>
 
-      {wrongEmail && "Email inválido"}
+      {wrongEmail && 'Email inválido'}
     </>
   )
 }

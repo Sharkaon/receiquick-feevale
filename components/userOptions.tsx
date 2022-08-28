@@ -19,15 +19,17 @@ export default function UserOptions() {
       {user && (
         <>
           <h2>Bem vindo, {user?.name || 'Visitante'}</h2>
-          <Button variant="contained" color="error" onClick={() => logout()}>Sair</Button>
+          <div className="grouper">
+            <Button variant="contained" color="error" onClick={() => logout()}>Sair</Button>
 
-          {user.role == 'ADMIN' && (
-            <>
-              <Link href="/admin">
-                <Button variant="contained" color="primary">Admin</Button>
-              </Link>
-            </>
-          )}
+            {user.role == 'ADMIN' && (
+              <>
+                <Link href="/admin">
+                  <Button variant="contained" color="primary">Admin</Button>
+                </Link>
+              </>
+            )}
+          </div>
         </>
       )}
 

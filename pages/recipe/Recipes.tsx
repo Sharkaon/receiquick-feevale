@@ -7,7 +7,8 @@ import {
   SelectChangeEvent,
   Select,
   FormControl,
-  Button
+  Button,
+  Chip
 } from "@mui/material";
 import { trpc } from "../../utils/trpc";
 import NewIngredient from "../../components/newIngredient";
@@ -52,7 +53,7 @@ const Recipes: NextPage = () => {
 
       <h1>Receitas</h1>
 
-      <FormControl>
+      <FormControl className="maxForm">
         <InputLabel id="ingrediente-label">Ingrediente</InputLabel>
         <Select
           id="ingrediente"
@@ -66,14 +67,20 @@ const Recipes: NextPage = () => {
         </Select>
         <br/>
 
-        {searchedIngredients.length > 0 && searchedIngredients.map(({ id, name }) => (
-          <div key={id}>
-            <label>{name}</label><Button color="error" onClick={() => setSearchedIngredients(searchedIngredients.filter(i => i.id !== id))}>X</Button>
-          </div>
-        ))}
+        <div>
+          {searchedIngredients.length > 0 && searchedIngredients.map(({ id, name }) => (
+            <Chip
+              key={id}
+              label={name}
+              onDelete={() => setSearchedIngredients(searchedIngredients.filter(i => i.id !== id))}
+              color="warning"
+              className="generalMargin"
+            />
+          ))}
+        </div>
         <br/>
 
-        {!recipeResponse || !recipeResponse.data? 'Carregando...' : recipeResponse.data?.map((recipe) => (
+        {!recipeResponse || !recipeResponse.data? (<p>Carregando...</p>) : recipeResponse.data?.map((recipe) => (
           <Link key={recipe.id} href={{
             pathname: '/recipe/[id]',
             query: { id: recipe.id }
@@ -86,9 +93,11 @@ const Recipes: NextPage = () => {
         <br/>
 
       </FormControl>
-      <Link href="/recipe/new">
-      <Button variant='contained'>Criar receita</Button>
-      </Link>
+      <div className="mb-1">
+        <Link href="/recipe/new">
+          <Button variant='contained' color='warning'>Criar receita</Button>
+        </Link>
+      </div>
 
       <NewIngredient />
     </>

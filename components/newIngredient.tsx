@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 
 export default function NewIngredient() {
   return (
     <>
-      <Link href='ingredient' replace>
-        <Button variant='contained'>Não achou o ingrediente que você procura? Cadastre-o aqui!</Button>
-      </Link>
+      Não achou o ingrediente que você procura? <Link href='ingredient' replace className="link">Cadastre-o aqui!</Link>
     </>
   );
 }

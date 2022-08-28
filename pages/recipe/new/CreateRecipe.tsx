@@ -147,9 +147,9 @@ const CreateRecipe: NextPage = () => {
             <input type="text" name="description" value={description} onChange={(e) => handleStepValueChange(e, id)}/>
           </div>
         ))}
-        <Button variant="contained" onClick={handleNewStep}>Adicionar Passo</Button>
+        <Button variant="contained" color="warning" onClick={handleNewStep}>Adicionar Passo</Button>
 
-        <br/><Button type="submit" variant="contained">Criar</Button>
+        <br/><Button type="submit" variant="contained" color="warning">Criar</Button>
       </form>
       {mutation.isLoading && <p>Carregando...</p>}
       {(isInvalid || mutation.isError) && <p>Necessário Nome, Ingredientes</p>}

@@ -3,6 +3,15 @@ import { Button } from "@mui/material";
 import { NextPage } from "next"
 import Link from "next/link";
 import { useRouter } from "next/router";
+import {
+  Badge,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+} from '@mui/material';
 import { UserContext } from "../../../contexts/UserContext";
 import { trpc } from "../../../utils/trpc";
 import UserOptions from "../../../components/userOptions";
@@ -50,17 +59,27 @@ const Recipe: NextPage = () => {
         <Button>Voltar</Button>
       </Link>
       <h1>{!res || !res?.data ? 'Carregando...' : res?.data?.name}</h1>
+
       <h4>Ingredientes:</h4>
       {res?.data?.ingredients?.map(i => (
-        <p key={i.ingredient?.id}>{i.ingredient?.name} ({i.amount})</p>
+        <Badge key={i.ingredient.id} badgeContent={i.amount} color="primary">
+          <Chip label={i.ingredient.name} color="warning"/>
+        </Badge>
       ))}
       <br/>
-      {res?.data?.Steps?.map((s, index) => (
-        <div key={s.id}>
-          <p key={s.id}>{index} - {s.description}</p>
-        </div>
-      ))}
-      <div>
+
+      <List className="maxList">
+        {res?.data?.Steps?.map((s, index) => (
+          <>
+            <ListItem key={s.id}>
+              <ListItemIcon>{index}</ListItemIcon>
+              <ListItemText primary={s.description} />
+            </ListItem>
+            <Divider />
+          </>
+        ))}
+      </List>
+      <div className="grouper">
         <Button color="error" variant="contained" onClick={(e) => handleClickDelete(e)} name="delete">
           Excluir
         </Button>
@@ -68,26 +87,31 @@ const Recipe: NextPage = () => {
           pathname: '/recipe/[id]/edit',
           query: { id }
         }}>
-          <Button variant="contained" color="secondary">Editar</Button>
+          <Button variant="contained" color="warning">Editar</Button>
         </Link>
       </div>
       {deleteMutation.isError && <p>Erro ao excluir</p>}
       {deleteMutation.isLoading && <p>Carregando...</p>}
-
+      
+      <h2>Comentários</h2>
       {user && user.id && (
-        <div>
+        <div className="mb-1">
           <h3>Insira um comentário</h3>
           <form onSubmit={handleSubmitComment}>
             <textarea name="comment" id="comment" cols={30} rows={10} onChange={(e) => setComment(e.target.value)} />
-            <button type="submit">Enviar</button>
+            <Button variant="contained" type="submit">Enviar</Button>
           </form>
         </div>
       )}
 
       {res?.data?.comments?.map(c => (
-        <div key={c.id}>
-          <p>{c.user?.name}: {c.description}</p>
-        </div>
+        <>
+          <ListItem key={c.id}>
+            <ListItemIcon>{c.user?.name}</ListItemIcon>
+            <ListItemText primary={c.description} />
+          </ListItem>
+          <Divider />
+        </>
       ))}
 
       {loadingComments && <p>Carregando comentários...</p>}
