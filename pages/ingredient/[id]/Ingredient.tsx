@@ -1,8 +1,10 @@
+
+import React from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { trpc } from '../../../utils/trpc';
+import UserOptions from "../../../components/userOptions";
 
 const Ingredient: NextPage = () => {
   
@@ -21,6 +23,7 @@ const Ingredient: NextPage = () => {
 
   return (
     <>
+      <UserOptions />
       {res.data?.name}
       <button onClick={(e) => handleClickDelete(e)} name="delete">
         Excluir

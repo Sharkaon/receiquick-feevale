@@ -2,13 +2,19 @@ import Link from 'next/link';
 import { NextPage } from 'next';
 import { trpc } from '../../utils/trpc';
 import { Button } from '@mui/material';
+import UserOptions from '../../components/userOptions';
 
 const Ingredients: NextPage = () => {
   const res = trpc.useQuery(['ingredient.ingredients']);
 
   return (
     <>
+      <UserOptions />
       <h1>Ingredientes!</h1>
+
+      <Link href="recipe">
+        Voltar
+      </Link>
 
       <Link href="/ingredient/new">
         <Button variant='contained'>Cadastrar novo ingrediente</Button>

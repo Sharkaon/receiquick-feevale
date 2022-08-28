@@ -10,6 +10,9 @@ import {
   Button
 } from "@mui/material";
 import { trpc } from "../../utils/trpc";
+import NewIngredient from "../../components/newIngredient";
+import { UserContext } from "../../contexts/UserContext";
+import UserOptions from "../../components/userOptions";
 
 const Recipes: NextPage = () => {
   interface SearchIngredient {
@@ -19,6 +22,7 @@ const Recipes: NextPage = () => {
   };
 
   const [searchedIngredients, setSearchedIngredients] = React.useState<SearchIngredient[]>([]);
+  const { user, loginUser } = React.useContext(UserContext);
 
   const recipeResponse = trpc.useQuery(['recipe.recipes', searchedIngredients]);
   const ingredientResponse = trpc.useQuery(['ingredient.ingredients']);
@@ -44,6 +48,8 @@ const Recipes: NextPage = () => {
 
   return (
     <>
+      <UserOptions />
+
       <h1>Receitas</h1>
 
       <FormControl>
@@ -84,9 +90,7 @@ const Recipes: NextPage = () => {
       <Button variant='contained'>Criar receita</Button>
       </Link>
 
-      <Link href='ingredient'>
-        <Button variant='contained'>Não achou o ingrediente que você procura? Cadastre-o aqui!</Button>
-      </Link>
+      <NewIngredient />
     </>
   )
 }

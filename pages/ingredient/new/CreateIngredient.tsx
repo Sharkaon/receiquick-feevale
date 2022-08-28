@@ -1,10 +1,22 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { trpc } from '../../../utils/trpc';
+import { useRouter } from 'next/router';
+import UserOptions from '../../../components/userOptions';
 
 const CreateIngredient: NextPage = () => {
   const [isInvalid, setIsInvalid] = React.useState(false);
-  const mutation = trpc.useMutation(['ingredient.createIngredient']);
+
+  const router = useRouter();
+
+  const mutation = trpc.useMutation(['ingredient.createIngredient'], {
+    onSuccess: () => {
+      setIsInvalid(false);
+      setTimeout(() => { 
+        router.back();
+      }, 1000);
+    }
+  });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,6 +34,7 @@ const CreateIngredient: NextPage = () => {
 
   return (
     <>
+      <UserOptions />
       <h1>Criar ingrediente</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Nome:</label><br/>

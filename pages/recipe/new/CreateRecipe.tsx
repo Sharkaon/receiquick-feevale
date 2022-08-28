@@ -10,6 +10,8 @@ import {
   Button,
 } from "@mui/material";
 import { trpc } from "../../../utils/trpc";
+import NewIngredient from "../../../components/newIngredient";
+import UserOptions from "../../../components/userOptions";
 
 const CreateRecipe: NextPage = () => {
   type SelectedIngredient = {
@@ -116,6 +118,7 @@ const CreateRecipe: NextPage = () => {
 
   return (
     <>
+      <UserOptions />
       <Link href="/recipe">
         <Button>Voltar</Button>
       </Link>
@@ -151,6 +154,8 @@ const CreateRecipe: NextPage = () => {
       {mutation.isLoading && <p>Carregando...</p>}
       {(isInvalid || mutation.isError) && <p>Necessário Nome, Ingredientes</p>}
       {mutation.isSuccess && <p>Receita criada com sucesso</p>}
+
+      <NewIngredient />
     </>
   );
 }
