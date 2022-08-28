@@ -1,17 +1,26 @@
+import { useState } from 'react';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
+import { UserContext } from '../contexts/UserContext';
+import type { User } from '../types/UserTypes';
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [user, setUser] = useState<User>(null);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <div className='page'>
-        <Component {...pageProps} />
-      </div>
+      <UserContext.Provider value={{ user, loginUser: (user) => {
+        setUser(user);
+      } }}>
+        <div className='page'>
+          <Component {...pageProps} />
+        </div>
+      </UserContext.Provider>
     </QueryClientProvider>
   )
 }

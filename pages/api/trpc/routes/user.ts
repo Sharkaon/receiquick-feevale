@@ -10,8 +10,7 @@ const users = trpc.router()
       email: z.string(),
     }),
     async resolve( { input } ) {
-      const user = await prisma.user.findMany({
-        take: 1,
+      const user = await prisma.user.findUnique({
         where: {
           email: input.email
         },
