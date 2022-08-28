@@ -33,6 +33,17 @@ const recipes = trpc.router()
               id: true,
               description: true,
             }
+          },
+          comments: {
+            select: {
+              id: true,
+              description: true,
+              user: {
+                select: {
+                  name: true,
+                }
+              }
+            }
           }
         }
       });
