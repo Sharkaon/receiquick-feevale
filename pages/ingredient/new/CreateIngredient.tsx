@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { trpc } from '../../../utils/trpc';
 import { useRouter } from 'next/router';
 import UserOptions from '../../../components/userOptions';
+import { Button, TextField } from '@mui/material';
 
 const CreateIngredient: NextPage = () => {
   const [isInvalid, setIsInvalid] = React.useState(false);
@@ -38,8 +39,8 @@ const CreateIngredient: NextPage = () => {
       <h1>Criar ingrediente</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Nome:</label><br/>
-        <input type="text" name="name"/>
-        <button type="submit">Criar</button>
+        <TextField type="text" name="name"/>
+        <Button variant="contained" type="submit">Criar</Button>'
       </form>
       {mutation.isLoading && <p>Carregando...</p>}
       {(isInvalid || mutation.isError) && <p>Preencha o nome</p>}

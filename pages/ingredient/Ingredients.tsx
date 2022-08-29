@@ -1,7 +1,14 @@
 import Link from 'next/link';
 import { NextPage } from 'next';
 import { trpc } from '../../utils/trpc';
-import { Button } from '@mui/material';
+import {
+  Button,
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
+} from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import UserOptions from '../../components/userOptions';
 
 const Ingredients: NextPage = () => {
@@ -25,7 +32,14 @@ const Ingredients: NextPage = () => {
           pathname: '/ingredient/[id]',
           query: { id: ingredient.id }
         }}>
-          <a><li key={ingredient.id}>{ingredient.name}</li></a>
+          <Accordion key={ingredient.id} className="generalMargin">
+            <AccordionSummary
+              expandIcon={<ArrowForwardIosIcon />}
+            >
+              <Typography>{ingredient.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails />
+          </Accordion>
         </Link>
       ))}
     </>

@@ -5,11 +5,20 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from '../../../utils/trpc';
 import UserOptions from "../../../components/userOptions";
+import { UserContext } from "../../../contexts/UserContext";
 
 const Ingredient: NextPage = () => {
+  const { user, loginUser } = React.useContext(UserContext);
   
   const router = useRouter();
   const { id } = router.query as { id: string };
+
+  React.useEffect(() => {
+    if (user?.role !== 'ADMIN') {
+      router.back();
+    }
+  }, [user])
+  
 
   const res = trpc.useQuery(['ingredient.ingredient', { id: parseInt(id, 10) }]);
   const deleteMutation = trpc.useMutation(['ingredient.deleteIngredient'], {
@@ -21,7 +30,7 @@ const Ingredient: NextPage = () => {
     deleteMutation.mutate(parseInt(id, 10));
   }
 
-  return (
+  if (user?.role === 'ADMIN') return (
     <>
       <UserOptions />
       {res.data?.name}
@@ -37,7 +46,9 @@ const Ingredient: NextPage = () => {
         <button>Editar</button>
       </Link>
     </>
-  )
+  ); else {
+    return <>Carregando...</>
+  }
 }
 
 export default Ingredient;
