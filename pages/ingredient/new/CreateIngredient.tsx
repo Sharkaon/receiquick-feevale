@@ -40,7 +40,7 @@ const CreateIngredient: NextPage = () => {
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Nome:</label><br/>
         <TextField type="text" name="name"/>
-        <Button variant="contained" type="submit">Criar</Button>'
+        <Button variant="contained" type="submit">Criar</Button>
       </form>
       {mutation.isLoading && <p>Carregando...</p>}
       {(isInvalid || mutation.isError) && <p>Preencha o nome</p>}
