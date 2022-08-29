@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-// import { User } from "../types/UserTypes";
 
 export default function UserOptions() {
   const { user, loginUser } = useContext(UserContext);

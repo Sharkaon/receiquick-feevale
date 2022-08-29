@@ -104,15 +104,6 @@ const Recipes: NextPage = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-                
-          // <Link key={recipe.id} href={{
-          //   pathname: '/recipe/[id]',
-          //   query: { id: recipe.id }
-          // }}>
-          //   <a><li key={recipe.id}>{recipe.name} - {recipe.ingredients.constructor === Array && recipe.ingredients?.map((i, index) => (
-          //     <span key={i.ingredient.id}>{i.ingredient.name} ({i.amount}){index + 1 < recipe.ingredients.length ? ', ' : ''}</span>
-          //   ))}</li></a>
-          // </Link>
         ))}
         <br/>
 
