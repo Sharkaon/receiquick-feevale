@@ -8,8 +8,14 @@ import {
   Select,
   FormControl,
   Button,
-  Chip
+  Chip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { ArrowCircleRight } from "@mui/icons-material";
 import { trpc } from "../../utils/trpc";
 import NewIngredient from "../../components/newIngredient";
 import { UserContext } from "../../contexts/UserContext";
@@ -81,14 +87,32 @@ const Recipes: NextPage = () => {
         <br/>
 
         {!recipeResponse || !recipeResponse.data? (<p>Carregando...</p>) : recipeResponse.data?.map((recipe) => (
-          <Link key={recipe.id} href={{
-            pathname: '/recipe/[id]',
-            query: { id: recipe.id }
-          }}>
-            <a><li key={recipe.id}>{recipe.name} - {recipe.ingredients.constructor === Array && recipe.ingredients?.map((i, index) => (
-              <span key={i.ingredient.id}>{i.ingredient.name} ({i.amount}){index + 1 < recipe.ingredients.length ? ', ' : ''}</span>
-            ))}</li></a>
-          </Link>
+          <Accordion key={recipe.id}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+            >
+              <Typography>{recipe.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                {recipe.ingredients.map(({ ingredient, amount }) => (
+                  <p key={ingredient.id}>{ingredient.name} ({amount}), </p>
+                ))}
+                <Link href="/recipe/[id]" as={`/recipe/${recipe.id}`}>
+                  Ler Mais...
+                </Link>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+                
+          // <Link key={recipe.id} href={{
+          //   pathname: '/recipe/[id]',
+          //   query: { id: recipe.id }
+          // }}>
+          //   <a><li key={recipe.id}>{recipe.name} - {recipe.ingredients.constructor === Array && recipe.ingredients?.map((i, index) => (
+          //     <span key={i.ingredient.id}>{i.ingredient.name} ({i.amount}){index + 1 < recipe.ingredients.length ? ', ' : ''}</span>
+          //   ))}</li></a>
+          // </Link>
         ))}
         <br/>
 
