@@ -34,7 +34,7 @@ const CreateIngredient: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="ingredient-bg">
       <UserOptions />
       <h1>Criar ingrediente</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -45,8 +45,7 @@ const CreateIngredient: NextPage = () => {
       {mutation.isLoading && <p>Carregando...</p>}
       {(isInvalid || mutation.isError) && <p>Preencha o nome</p>}
       {mutation.isSuccess && <p>Ingrediente criado com sucesso</p>}
-
-    </>
+    </div>
   );
 }	
 

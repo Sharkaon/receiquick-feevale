@@ -54,7 +54,7 @@ const Recipes: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="recipe-bg">
       <UserOptions />
 
       <h1>Receitas</h1>
@@ -116,7 +116,7 @@ const Recipes: NextPage = () => {
       </div>
 
       <NewIngredient />
-    </>
+    </div>
   )
 }
 

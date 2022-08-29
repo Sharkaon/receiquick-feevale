@@ -118,7 +118,7 @@ const CreateRecipe: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="recipe-bg">
       <UserOptions />
       <Link href="/recipe">
         <Button>Voltar</Button>
@@ -173,7 +173,7 @@ const CreateRecipe: NextPage = () => {
       {mutation.isSuccess && <p>Receita criada com sucesso</p>}
 
       <NewIngredient />
-    </>
+    </div>
   );
 }
 

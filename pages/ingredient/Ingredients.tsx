@@ -15,7 +15,7 @@ const Ingredients: NextPage = () => {
   const res = trpc.useQuery(['ingredient.ingredients']);
 
   return (
-    <>
+    <div className="ingredient-bg">
       <UserOptions />
       <h1>Ingredientes!</h1>
 
@@ -42,7 +42,7 @@ const Ingredients: NextPage = () => {
           </Accordion>
         </Link>
       ))}
-    </>
+    </div>
   );
 }
 

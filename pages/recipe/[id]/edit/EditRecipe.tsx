@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import {
   InputLabel,
   MenuItem,
-  SelectChangeEvent,
   Select,
   Button,
   TextField,
@@ -54,9 +53,6 @@ const EditRecipe: NextPage = () => {
         router.back();
       }, 1000);
     }
-  });
-  const deleteMutation = trpc.useMutation(['recipe.deleteRecipe'], {
-    onSuccess: () => router.back(),
   });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,7 +131,7 @@ const EditRecipe: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="recipe-bg">
       <UserOptions />
       <h1>Editar Receita</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -186,7 +182,7 @@ const EditRecipe: NextPage = () => {
       {editMutation.isSuccess && <p>Receita editada com sucesso</p>}
       <br/>
       <DeleteRecipe id={parseInt(id, 10)} />
-    </>
+    </div>
   );
 }
 

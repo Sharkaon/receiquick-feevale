@@ -15,7 +15,7 @@ a {
   box-sizing: border-box;
 }
 
-.page, form {
+.page, form, .topbar, .recipe-bg, .ingredient-bg {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,6 +48,30 @@ a {
 .maxList {
   width: 100%;
   margin-bottom: 2rem;
+}
+
+.recipe-bg {
+  width: 100%;
+  min-height: 97vh;
+  height: 100%;
+  background-color: #FFF8AB;
+}
+
+.ingredient-bg {
+  width: 100%;
+  min-height: 97vh;
+  height: 100%;
+  background-color: #D5FFAB;
+}
+
+.recipe-bg .MuiInputBase-root {
+  background-color: white;
+}
+
+.topbar {
+  background-color: yellow;
+  width: 100%;
+  min-height: 3vh;
 }
 
 /* @media (prefers-color-scheme: dark) {

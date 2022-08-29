@@ -31,7 +31,7 @@ const Ingredient: NextPage = () => {
   }
 
   if (user?.role === 'ADMIN') return (
-    <>
+    <div className="ingredient-bg">
       <UserOptions />
       {res.data?.name}
       <button onClick={(e) => handleClickDelete(e)} name="delete">
@@ -45,7 +45,7 @@ const Ingredient: NextPage = () => {
       }}>
         <button>Editar</button>
       </Link>
-    </>
+    </div>
   ); else {
     return <>Carregando...</>
   }

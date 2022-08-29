@@ -37,7 +37,7 @@ const EditIngredient: NextPage = () => {
   }
 
   return (
-    <div>
+    <div className="ingredient-bg">
       <h1>Editar Ingrediente</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Nome:</label><br/>

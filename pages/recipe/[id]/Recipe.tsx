@@ -46,7 +46,7 @@ const Recipe: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="recipe-bg">
       <UserOptions />
       <Link href="/recipe">
         <Button>Voltar</Button>
@@ -106,7 +106,7 @@ const Recipe: NextPage = () => {
       ))}
 
       {loadingComments && <p>Carregando comentários...</p>}
-    </>
+    </div>
   );
 }
 
