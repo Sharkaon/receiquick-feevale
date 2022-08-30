@@ -15,7 +15,7 @@ a {
   box-sizing: border-box;
 }
 
-.page, form, .topbar, .recipe-bg, .ingredient-bg {
+.page, form, .topbar, .recipe-bg, .ingredient-bg, .start-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +50,7 @@ a {
   margin-bottom: 2rem;
 }
 
-.recipe-bg {
+.recipe-bg, .start-page {
   width: 100%;
   min-height: 97vh;
   height: 100%;
@@ -64,7 +64,7 @@ a {
   background-color: #D5FFAB;
 }
 
-.recipe-bg .MuiInputBase-root {
+.MuiInputBase-root {
   background-color: white;
 }
 
@@ -72,6 +72,13 @@ a {
   background-color: yellow;
   width: 100%;
   min-height: 3vh;
+}
+
+.start-page {
+  background-image: url('../resources/Prato.png');
+  background-size: cover;
+  height: 100vh !important;
+  background-repeat: no-repeat;
 }
 
 /* @media (prefers-color-scheme: dark) {
