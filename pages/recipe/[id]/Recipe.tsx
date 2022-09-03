@@ -74,15 +74,17 @@ const Recipe: NextPage = () => {
           </>
         ))}
       </List>
-      <div className="grouper">
-        <DeleteRecipe id={parseInt(id, 10)} />
-        <Link href={{
-          pathname: '/recipe/[id]/edit',
-          query: { id }
-        }}>
-          <Button variant="contained" color="warning">Editar</Button>
+      {user && user.role === 'ADMIN' && (  
+        <div className="grouper">
+          <DeleteRecipe id={parseInt(id, 10)} />
+          <Link href={{
+            pathname: '/recipe/[id]/edit',
+            query: { id }
+          }}>
+            <Button variant="contained" color="warning">Editar</Button>
         </Link>
-      </div>
+        </div>
+      )}
       
       <h2>Comentários</h2>
       {user && user.id && (
