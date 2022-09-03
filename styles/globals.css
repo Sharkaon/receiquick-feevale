@@ -75,8 +75,9 @@ a {
 }
 
 .start-page {
-  background-image: url('../resources/Prato.png');
-  background-size: cover;
+  background-image: url('../resources/LogoLonga.png');
+  background-size: contain;
+  background-position-x: center;
   height: 100vh !important;
   background-repeat: no-repeat;
 }
