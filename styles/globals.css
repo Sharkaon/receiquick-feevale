@@ -82,6 +82,16 @@ a {
   background-repeat: no-repeat;
 }
 
+@font-face {
+  font-family: 'Pacifico';
+  src: url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+}
+
+.title {
+  font-family: 'Pacifico', cursive;
+  color: white;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
