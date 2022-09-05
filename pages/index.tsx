@@ -5,7 +5,7 @@ import Login from '../components/login';
 const Home: NextPage = () => {
   return (
     <div className="start-page">
-      <Typography variant="h1" className="title">
+      <Typography className="title">
         Receiquick
       </Typography>
       <Login/>

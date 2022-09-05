@@ -87,6 +87,7 @@ a {
 .title {
   font-family: 'Pacifico', cursive !important;
   color: white;
+  font-size: 3rem;
 }
 
 /* @media (prefers-color-scheme: dark) {
