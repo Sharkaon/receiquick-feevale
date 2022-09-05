@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 html,
 body {
   padding: 0;
@@ -82,13 +84,8 @@ a {
   background-repeat: no-repeat;
 }
 
-@font-face {
-  font-family: 'Pacifico';
-  src: url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-}
-
 .title {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', cursive !important;
   color: white;
 }
 
