@@ -84,12 +84,6 @@ a {
   background-repeat: no-repeat;
 }
 
-.title {
-  font-family: 'Pacifico', cursive !important;
-  color: white;
-  font-size: 3rem;
-}
-
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
