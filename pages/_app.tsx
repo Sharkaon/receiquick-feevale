@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div className='page'>
           {user && (
             <div className='topbar'>
-              <Link href={`${getBaseUrl()}/recipe`} replace><HomeIcon /></Link>
+              <Link href={`${getBaseUrl()}/recipe`}><HomeIcon /></Link>
             </div>
           )}
           <Component {...pageProps} />

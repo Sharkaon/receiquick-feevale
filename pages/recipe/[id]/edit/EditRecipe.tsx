@@ -117,12 +117,8 @@ const EditRecipe: NextPage = () => {
     };
     if (e.target instanceof EventTarget && target.value) {
       const selectedAmount = Number.parseInt(target.value, 10) || 0;
-      if (selectedAmount !== 0) {
-        setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: selectedAmount} : i));
-        setIsInvalid(false);
-      } else {
-        setIsInvalid(true);
-      }
+      setSelectedIngredients(selectedIngredients.map((i) => i.id === id ? { ...i, amount: selectedAmount} : i));
+      setIsInvalid(false);
     }
   }
 
@@ -148,14 +144,14 @@ const EditRecipe: NextPage = () => {
             <MenuItem key={id} value={id}>{name}</MenuItem>
           ))}
         </Select>
-        {res?.data?.ingredients !== undefined && res?.data?.ingredients?.length > 0 && res?.data?.ingredients?.map(({ ingredient, amount }) => (
-          <div key={ingredient.id}>
+        {selectedIngredients !== undefined && selectedIngredients?.length > 0 && selectedIngredients?.map(({ id, name, amount }, index) => (
+          <div key={index}>
             <TextField
               inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              label={ingredient.name}
+              label={name}
               name="amount"
               value={amount}
-              onChange={(e) => setNewSelectedIngredientAmount(e, parseInt(id, 10))}
+              onChange={(e) => setNewSelectedIngredientAmount(e, id)}
               className="generalMargin"
             />
           </div>

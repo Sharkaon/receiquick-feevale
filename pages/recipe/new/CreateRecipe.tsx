@@ -96,11 +96,8 @@ const CreateRecipe: NextPage = () => {
     };
     if (e.target instanceof EventTarget && target.value) {
       const selectedAmount = Number.parseInt(target.value, 10) || 0;
-      if (selectedAmount !== 0) {
-        setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: selectedAmount} : i));
-      } else {
-        setIsInvalid(true);
-      }
+      setSelectedIngredients(selectedIngredients.map(i => i.id === id ? { ...i, amount: selectedAmount} : i));
+      setIsInvalid(false);
     }
   }
 
