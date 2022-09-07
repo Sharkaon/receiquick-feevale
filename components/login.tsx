@@ -13,6 +13,8 @@ export default function Login() {
   const router = useRouter();
   const [email, setEmail] = React.useState('');
   const [wrongEmail, setWrongEmail] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
   const { user, loginUser } = React.useContext(UserContext);
 
   const adminUsers = [
@@ -22,6 +24,8 @@ export default function Login() {
   const { data, refetch } = trpc.useQuery(['user.user', { email }], {
     enabled: false,
     onSuccess: (loginResponse) => {
+      setError(false);  
+      setIsLoading(false);
       if (loginResponse) {
         const loggedUser: User = {
           id: loginResponse.id,
@@ -34,24 +38,32 @@ export default function Login() {
       } else {
         setWrongEmail(true);
       }
-    }
+    },
+    onError: (_error) => {
+      console.log(_error);
+      setIsLoading(false);
+      setError(true);
+    },
   });
 
   const handleSubmitLogin: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     refetch();
   }
 
   return (
     <>
-      <h1>Login</h1>
+      <h1>Entrar</h1>
+
+      {wrongEmail && 'Email inválido'}
+      {isLoading && 'Carregando...'}
+      {error && 'Erro ao conectar. Tente novamente.'}
 
       <form onSubmit={(e) => handleSubmitLogin(e)}>
         <TextField id='email-input' className='mb-1' label='Email' variant='outlined' onChange={(e) => setEmail(e.target.value)}/>
         <Button type='submit' variant='contained'><span>Conectar</span></Button>
       </form>
-
-      {wrongEmail && 'Email inválido'}
     </>
   )
 }
