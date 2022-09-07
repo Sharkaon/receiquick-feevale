@@ -161,10 +161,10 @@ const EditRecipe: NextPage = () => {
           </div>
         ))}
         <br/>
-        {res?.data?.Steps !== undefined && res?.data?.Steps?.length > 0 && res?.data?.Steps?.map(({ id, description }) => (
-          <div key={id}>
+        {steps !== undefined && steps?.length > 0 && steps?.map(({ id, description }, index) => (
+          <div key={index}>
             <TextField
-              label={`Passo ${id + 1}`}
+              label={`Passo ${index + 1}`}
               type="text"
               name="description"
               value={description}
