@@ -22,9 +22,11 @@ const Ingredients: NextPage = () => {
       <UserOptions />
       <h1>Ingredientes!</h1>
 
-      <Link href="recipe">
-        Voltar
-      </Link>
+      <div className='mb-1'>
+        <Link href="recipe">
+          Voltar
+        </Link>
+      </div>
 
       <Link href="/ingredient/new">
         <Button variant='contained'>Cadastrar novo ingrediente</Button>
